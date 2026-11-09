@@ -105,17 +105,20 @@ def generate_banners():
     draw_c('Sri Maddaneshware Swamy Function Hall', 384, f_venue_bold, (230, 210, 150))
     draw_c('Rayadurgam, Andhra Pradesh', 410, f_venue, (220, 205, 170))
 
-    btn_w = 420
-    btn_h = 46
+    btn_w = 440
+    btn_h = 44
     bx1 = center_x - (btn_w // 2)
-    by1 = 450
-    draw.rounded_rectangle([bx1, by1, bx1 + btn_w, by1 + btn_h], radius=23, fill=(19, 57, 121), outline=gold, width=2)
-    draw.rounded_rectangle([bx1 + 2, by1 + 2, bx1 + btn_w - 2, by1 + btn_h - 2], radius=21, outline=bright_gold, width=1)
-    btn_txt = 'TAP TO OPEN INVITATION & RSVP'
+    by1 = 444
+    draw.rounded_rectangle([bx1, by1, bx1 + btn_w, by1 + btn_h], radius=22, fill=(19, 57, 121), outline=gold, width=2)
+    draw.rounded_rectangle([bx1 + 2, by1 + 2, bx1 + btn_w - 2, by1 + btn_h - 2], radius=20, outline=bright_gold, width=1)
+    btn_txt = 'TAP TO OPEN INVITATION & SEND BLESSINGS'
     bbox_b = draw.textbbox((0, 0), btn_txt, font=f_btn)
     bw = bbox_b[2] - bbox_b[0]
     bh = bbox_b[3] - bbox_b[1]
     draw.text((center_x - bw // 2, by1 + (btn_h - bh) // 2 - 2), btn_txt, font=f_btn, fill=(255, 255, 255))
+
+    # Wedding Hashtag at bottom
+    draw_c('#PreetKiHari', 498, f_time, bright_gold)
 
     # Save to assets
     share_path = os.path.join(assets_dir, 'gurupreetham-niharika-wedding-share.jpg')

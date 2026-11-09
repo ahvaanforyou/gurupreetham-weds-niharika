@@ -42,10 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. GSAP ScrollTrigger Event Cards Stacking Deck
   initEventCardsScrollTrigger();
 
-  // 7. Responsive RSVP System with Attendance Toggle
-  initRsvpAttendanceToggle();
-  initRsvpExpander();
-  checkExistingRsvp();
+  // 7. Sacred Blessings System & Public Blessings Wall
+  initBlessingsSystem();
 
   // 8. Background Wedding Music & Floating Mute Button
   initBackgroundMusic();
@@ -587,72 +585,161 @@ function initEventCardsScrollTrigger() {
 }
 
 /* ==========================================================================
-   7. RESPONSIVE RSVP SYSTEM WITH CONDITIONAL ATTENDANCE
-   When 'Regretfully Decline' is selected: hides number of guests & events
+   7. SACRED BLESSINGS SYSTEM & PUBLIC BLESSINGS WALL (REPLACED RSVP)
+   Guests shower their warm wishes & blessings which display publicly!
    ========================================================================== */
-function initRsvpAttendanceToggle() {
-  const attendingRadios = document.querySelectorAll('input[name="attending"]');
-  const attendanceDetails = document.getElementById('rsvp-attendance-details');
 
-  attendingRadios.forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      document.querySelectorAll('.attendance-radios .radio-card').forEach(c => c.classList.remove('active'));
-      e.target.closest('.radio-card').classList.add('active');
+// Curated initial heartfelt blessings to welcome visitors
+const DEFAULT_BLESSINGS = [
+  {
+    id: 1,
+    name: "Dr. Gelli Sreenivasulu & Vidyavathi",
+    relation: "Parents of Groom · Rayadurgam",
+    message: "May Lord Sri Radha Krishna shower Gurupreetham and Niharika with boundless happiness, health, divine harmony, and a joyous married life! Our heartfelt blessings are always with you both. 🌸✨",
+    time: "Family Blessing"
+  },
+  {
+    id: 2,
+    name: "Nagella Vedavathi & Ramanjineyulu",
+    relation: "Parents of Bride",
+    message: "Wishing our dearest Niharika and Gurupreetham eternal love, sweet togetherness, and blissful companionship as you step into this sacred journey of life. 🌸🙏",
+    time: "Family Blessing"
+  },
+  {
+    id: 3,
+    name: "Kalyan & Family",
+    relation: "Bangalore · Family Friends",
+    message: "Hearty congratulations Gurupreetham & Niharika! So thrilled for both of you. Looking forward to celebrating the auspicious moments in Rayadurgam! #PreetKiHari 🎉🌸",
+    time: "Today"
+  },
+  {
+    id: 4,
+    name: "Suresh Kumar & Family",
+    relation: "Anantapur · Well Wishers",
+    message: "Warmest wedding greetings to the lovely couple! May your bond grow stronger with each passing day. Best wishes to both families! 💐",
+    time: "Yesterday"
+  }
+];
 
-      const isAttending = e.target.value === 'yes';
-      if (attendanceDetails) {
-        if (isAttending) {
-          attendanceDetails.style.display = 'block';
-        } else {
-          // Hide number of guests and events attending when declining
-          attendanceDetails.style.display = 'none';
-        }
-      }
-    });
-  });
+function initBlessingsSystem() {
+  renderBlessingsFeed();
+  fetchRemoteBlessings();
 }
 
-function initRsvpExpander() {
-  const toggleBar = document.getElementById('rsvp-toggle-bar');
-  const wrapper = document.getElementById('rsvp-form-wrapper');
-
-  if (toggleBar && wrapper) {
-    toggleBar.addEventListener('click', () => {
-      toggleBar.classList.toggle('open');
-      wrapper.classList.toggle('collapsed');
-      if (window.lucide) window.lucide.createIcons();
-    });
+function getStoredBlessings() {
+  try {
+    const raw = localStorage.getItem('gurupreetham_niharika_blessings');
+    return raw ? JSON.parse(raw) : [];
+  } catch (err) {
+    console.error('Error reading stored blessings:', err);
+    return [];
   }
 }
 
-function handleRsvpSubmit(e) {
+function saveStoredBlessing(blessing) {
+  try {
+    const current = getStoredBlessings();
+    current.unshift(blessing);
+    localStorage.setItem('gurupreetham_niharika_blessings', JSON.stringify(current));
+  } catch (err) {
+    console.error('Error saving blessing:', err);
+  }
+}
+
+let remoteBlessingsCache = [];
+
+function renderBlessingsFeed() {
+  const container = document.getElementById('blessingsFeed');
+  if (!container) return;
+
+  const localBlessings = getStoredBlessings();
+  
+  // Combine: Local newly submitted blessings + Remote blessings (if any) + Default family blessings
+  const seen = new Set();
+  const allBlessings = [];
+
+  [...localBlessings, ...remoteBlessingsCache, ...DEFAULT_BLESSINGS].forEach(item => {
+    const key = `${(item.name || '').trim().toLowerCase()}_${(item.message || '').trim().toLowerCase()}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      allBlessings.push(item);
+    }
+  });
+
+  container.innerHTML = allBlessings.map(b => createBlessingCardHtml(b)).join('');
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
+
+function createBlessingCardHtml(b) {
+  const initials = (b.name || 'W')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(w => w[0].toUpperCase())
+    .join('');
+
+  return `
+    <div class="blessing-feed-card ${b.isNew ? 'highlight-new' : ''}">
+      <span class="blessing-card-corner">🌸</span>
+      <div class="blessing-card-header">
+        <div class="blessing-avatar">${initials || '🌸'}</div>
+        <div class="blessing-author-meta">
+          <div class="blessing-author-top">
+            <span class="blessing-author-name">${escapeHtml(b.name || 'Well Wisher')}</span>
+            <span class="blessing-time-tag">${escapeHtml(b.time || 'Recently')}</span>
+          </div>
+          ${b.relation ? `<span class="blessing-relation-pill">${escapeHtml(b.relation)}</span>` : ''}
+        </div>
+      </div>
+      <p class="blessing-message-text">“${escapeHtml(b.message || '')}”</p>
+    </div>
+  `;
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function handleBlessingSubmit(e) {
   e.preventDefault();
 
-  const name = document.getElementById('rsvp-name').value.trim();
-  const phone = document.getElementById('rsvp-phone').value.trim();
-  const attendingRadio = document.querySelector('input[name="attending"]:checked');
-  const attending = attendingRadio ? attendingRadio.value : 'yes';
-  const guestsEl = document.getElementById('rsvp-guests');
-  const guests = guestsEl ? guestsEl.value : '1';
-  const message = document.getElementById('rsvp-message').value.trim();
+  const nameInput = document.getElementById('blessing-name');
+  const relationInput = document.getElementById('blessing-relation');
+  const phoneInput = document.getElementById('blessing-phone');
+  const messageInput = document.getElementById('blessing-message');
 
-  const eventsChecked = Array.from(document.querySelectorAll('input[name="events"]:checked'))
-    .map(cb => cb.value)
-    .join(', ');
+  const name = nameInput ? nameInput.value.trim() : '';
+  const relation = relationInput ? relationInput.value.trim() : '';
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+  const message = messageInput ? messageInput.value.trim() : '';
 
-  const rsvpData = {
+  if (!name || !message) {
+    showToast('⚠️ Please enter your name and heartfelt blessing');
+    return;
+  }
+
+  const newBlessing = {
+    id: Date.now(),
     name,
+    relation: relation || 'Well Wisher',
     phone,
-    attending,
-    guests: attending === 'yes' ? guests : '0',
-    events: attending === 'yes' ? eventsChecked : 'None',
     message,
-    timestamp: new Date().toISOString()
+    time: 'Just now',
+    isNew: true
   };
 
-  localStorage.setItem('krishna_rsvp_submission', JSON.stringify(rsvpData));
+  // Save to local storage
+  saveStoredBlessing(newBlessing);
 
-  // Asynchronously sync with Google Sheet Webhook if configured
+  // Sync to Google Sheet Webhook if configured
   if (GOOGLE_SHEET_WEBHOOK_URL) {
     try {
       fetch(GOOGLE_SHEET_WEBHOOK_URL, {
@@ -661,55 +748,75 @@ function handleRsvpSubmit(e) {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(rsvpData)
+        body: JSON.stringify({
+          action: 'blessing',
+          name,
+          phone,
+          attending: 'Blessing Showered 🌸',
+          guests: '1',
+          events: relation || 'Well Wisher',
+          message,
+          timestamp: new Date().toISOString()
+        })
       }).catch(err => {
-        console.warn('Google Sheets background sync note:', err);
+        console.warn('Google Sheets background sync notice:', err);
       });
     } catch (sheetErr) {
       console.warn('Google Sheets sync notice:', sheetErr);
     }
   }
 
-  // Switch to confirmation card
-  const form = document.getElementById('rsvp-form');
-  const successBox = document.getElementById('rsvp-success-box');
-  const nameDisplay = document.getElementById('guest-name-display');
-  const summaryDetails = document.getElementById('rsvp-summary-details');
+  // Update UI: Render Wall immediately with new item at top
+  renderBlessingsFeed();
 
-  if (nameDisplay) nameDisplay.textContent = name;
-  if (summaryDetails) {
-    summaryDetails.innerHTML = attending === 'yes'
-      ? `🎉 Attending with <strong>${guests}</strong> guest(s) for <strong>${eventsChecked || 'All Celebrations'}</strong>`
-      : `🕊️ Heartfelt blessings received with warm gratitude from afar`;
-  }
+  // Show Success Banner
+  const form = document.getElementById('blessing-form');
+  const banner = document.getElementById('blessing-success-banner');
+  const successName = document.getElementById('blessing-success-name');
 
-  form.classList.add('hidden');
-  successBox.classList.remove('hidden');
+  if (successName) successName.textContent = name;
+  if (form) form.classList.add('hidden');
+  if (banner) banner.classList.remove('hidden');
 
+  // Trigger celebration & Toast
   fireConfetti();
-  showToast(attending === 'yes' ? '🌸 Your RSVP has been confirmed with joy!' : '🕊️ Thank you for your warm wishes!');
-}
+  showToast('🌸 Thank you! Your warm blessing is posted on the wall.');
 
-function resetRsvpForm() {
-  const form = document.getElementById('rsvp-form');
-  const successBox = document.getElementById('rsvp-success-box');
-  if (form) form.classList.remove('hidden');
-  if (successBox) successBox.classList.add('hidden');
-}
-
-function checkExistingRsvp() {
-  const saved = localStorage.getItem('krishna_rsvp_submission');
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      const nameInput = document.getElementById('rsvp-name');
-      const phoneInput = document.getElementById('rsvp-phone');
-      if (nameInput) nameInput.value = data.name || '';
-      if (phoneInput) phoneInput.value = data.phone || '';
-    } catch (err) {
-      console.error(err);
-    }
+  // Smooth scroll down slightly towards the blessings wall
+  const wall = document.getElementById('public-blessings-wall');
+  if (wall) {
+    setTimeout(() => {
+      wall.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 400);
   }
+}
+
+function resetBlessingForm() {
+  const form = document.getElementById('blessing-form');
+  const banner = document.getElementById('blessing-success-banner');
+  const messageInput = document.getElementById('blessing-message');
+
+  if (messageInput) messageInput.value = '';
+  if (form) form.classList.remove('hidden');
+  if (banner) banner.classList.add('hidden');
+}
+
+// Attempts to fetch any blessings already recorded in Google Sheet
+function fetchRemoteBlessings() {
+  if (!GOOGLE_SHEET_WEBHOOK_URL) return;
+
+  const url = `${GOOGLE_SHEET_WEBHOOK_URL}${GOOGLE_SHEET_WEBHOOK_URL.includes('?') ? '&' : '?'}action=blessings`;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.status === 'success' && Array.isArray(data.blessings) && data.blessings.length > 0) {
+        remoteBlessingsCache = data.blessings;
+        renderBlessingsFeed();
+      }
+    })
+    .catch(err => {
+      console.log('Blessings feed local mode active');
+    });
 }
 
 /* ==========================================================================
@@ -719,9 +826,30 @@ function checkExistingRsvp() {
 function shareOnWhatsApp() {
   const groom = 'Gelli Gurupreetham';
   const bride = 'Nagella Sai Niharika';
-  const date = '21 – 23 December 2026 · Rayadurgam';
   
-  const msg = `🌸 *Wedding Invitation* 🌸\n\nWith the divine blessings of Sri Radha Krishna, we joyfully invite you to the wedding celebrations of:\n\n*${groom} weds ${bride}*\n\n✨ *Auspicious Ceremonies:*\n🟡 *Haldi:* 21-12-2026\n💐 *Reception (Rayadurgam):* 22-12-2026 (Evening)\n💍 *Wedding Muhurtham:* 23-12-2026 (10:45 AM – 11:15 AM, Kumbha Lagnam)\n📍 *Venue:* Sri Maddaneshware Swamy Function Hall, Rayadurgam (https://maps.app.goo.gl/25FV4oNNGrZjgZLcA)\n\n🎉 *Grand Reception (Anantapur):* 25-12-2026\n📍 *Venue:* Police Convention Centre, Kamalanagar, Anantapur (https://maps.app.goo.gl/Nf8Q3P7NU5GxEYQS9)\n\nKindly view our digital wedding invite and RSVP here:\n${window.location.href}\n\nWe look forward to celebrating together! ✨`;
+  const msg = `🌸 *Wedding Invitation* 🌸
+
+Celebrate the wedding celebrations of:
+
+*${groom} weds ${bride}*
+
+✨ *Auspicious Ceremonies:*
+🌿 *Haldi:* 21-12-2026
+🎉 *Reception (Rayadurgam):* 22-12-2026 (Evening)
+💍 *Wedding Muhurtham:* 23-12-2026 (10:45 AM – 11:15 AM, Kumbha Lagnam)
+📍 *Venue:* Sri Maddaneshware Swamy Function Hall, Rayadurgam (https://maps.app.goo.gl/25FV4oNNGrZjgZLcA)
+
+🎊 *Grand Reception (Anantapur):* 25-12-2026
+📍 *Venue:* Police Convention Centre, Kamalanagar, Anantapur (https://maps.app.goo.gl/Nf8Q3P7NU5GxEYQS9)
+
+📞 *For Enquiries (Groom's Parents):*
+• +91 94408 50891
+• +91 92471 63701
+
+Kindly view our digital wedding invite and shower your warm blessings on the wall:
+${window.location.href}
+
+#PreetKiHari`;
 
   const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
   window.open(waUrl, '_blank');

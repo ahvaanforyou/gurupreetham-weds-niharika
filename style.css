@@ -1299,222 +1299,160 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   7. RSVP SECTION (DEFAULT OPEN)
+   7. SHOWER YOUR BLESSINGS SECTION (REPLACED RSVP)
    -------------------------------------------------------------------------- */
-.section-rsvp {
+.section-blessings {
   margin-bottom: 0; /* 0 margin so hanging swing connects directly */
   width: 100%;
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: 0 10px 28px rgba(19, 57, 121, 0.18);
   border: 1px solid rgba(212, 175, 55, 0.45);
+  background: #ffffff;
 }
 
-.rsvp-royal-bar {
-  background: #133979;
+.blessings-royal-bar {
+  background: linear-gradient(135deg, #133979 0%, #0c1c40 100%);
   color: #ffffff;
-  padding: 22px 20px;
+  padding: 24px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.6);
 }
 
-.rsvp-bar-content {
+.blessings-bar-content {
   text-align: center;
 }
 
-.rsvp-bar-title {
+.blessings-title-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.blessings-flourish {
+  font-size: 1.5rem;
+  animation: gentlePulse 2.5s infinite ease-in-out;
+}
+
+.blessings-bar-title {
   font-family: var(--font-serif);
-  font-size: 2.4rem;
+  font-size: 2.1rem;
   font-weight: 600;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   color: #ffffff;
-  line-height: 1;
+  line-height: 1.1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.rsvp-bar-hint {
-  font-size: 0.75rem;
+.blessings-bar-hint {
+  font-size: 0.8rem;
   color: var(--color-gold-light);
-  letter-spacing: 1px;
-  margin-top: 4px;
+  letter-spacing: 0.8px;
+  margin-top: 6px;
   display: block;
+  font-weight: 500;
 }
 
-/* RSVP Form Container - Default Open */
-.rsvp-form-container {
+/* Blessings Container */
+.blessings-container {
   background: #ffffff;
-  padding: 24px 20px;
+  padding: 24px 18px;
   text-align: left;
-  border-top: 1px solid rgba(212, 175, 55, 0.35);
-  display: block;
+}
+
+/* Form Card */
+.blessings-form-card {
+  background: #fdfbf7;
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
+  border-radius: var(--radius-md);
+  padding: 20px 16px;
+  box-shadow: 0 4px 16px rgba(19, 57, 121, 0.05);
+  margin-bottom: 28px;
+}
+
+.blessings-form-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.blessings-card-heading {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--color-royal-blue);
+  margin-bottom: 4px;
+}
+
+.blessings-card-subheading {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}
+
+.blessings-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 500px) {
+  .blessings-fields-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
 }
 
 .form-field {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .form-field label {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--color-text-main);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .form-field .req {
   color: #c53030;
 }
 
+.form-field .opt {
+  font-size: 0.72rem;
+  color: #8892b0;
+  font-weight: 400;
+}
+
 .form-field input,
-.form-field select,
 .form-field textarea {
   width: 100%;
   padding: 11px 14px;
   border: 1px solid #d1d5db;
   border-radius: var(--radius-sm);
-  background: #f9fafb;
+  background: #ffffff;
   font-size: 0.9rem;
+  font-family: inherit;
   color: var(--color-text-main);
   box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-field input:focus,
-.form-field select:focus,
 .form-field textarea:focus {
   outline: none;
   border-color: var(--color-royal-blue);
-  background: #ffffff;
   box-shadow: 0 0 0 3px rgba(19, 57, 121, 0.15);
 }
 
-/* Radio Cards */
-.attendance-radios {
-  display: flex;
-  gap: 10px;
-}
-
-.radio-card {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: var(--radius-sm);
-  background: #f9fafb;
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.radio-card input {
-  display: none;
-}
-
-.radio-card:has(input:checked) {
-  border-color: var(--color-gold);
-  background: rgba(212, 175, 55, 0.12);
-  color: var(--color-royal-blue-dark);
-}
-
-.form-row-dual {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-@media (min-width: 440px) {
-  .form-row-dual {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-}
-
-.event-checkboxes-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-@media (min-width: 460px) {
-  .event-checkboxes-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.event-check-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  background: #ffffff;
-  border: 1.5px solid rgba(212, 175, 55, 0.4);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 6px rgba(19, 57, 121, 0.04);
-}
-
-.event-check-card:hover {
-  border-color: var(--color-royal-blue);
-  background: rgba(212, 175, 55, 0.06);
-}
-
-.event-check-card input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--color-royal-blue);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.event-check-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  text-align: left;
-}
-
-.event-check-name {
-  font-family: var(--font-heading);
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--color-royal-blue);
-  line-height: 1.25;
-}
-
-.event-check-date {
-  font-family: var(--font-sans);
-  font-size: 0.74rem;
-  color: var(--color-gold-dark);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.event-checkboxes {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding-top: 8px;
-}
-
-.event-checkboxes label {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.btn-submit-rsvp {
+.btn-submit-blessing {
   width: 100%;
   display: flex;
   align-items: center;
@@ -1525,80 +1463,422 @@ button {
   color: #ffffff;
   border: 1.5px solid rgba(212, 175, 55, 0.65);
   border-radius: var(--radius-full);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-  box-shadow: 0 6px 20px rgba(19, 57, 121, 0.35);
-  margin-top: 8px;
+  box-shadow: 0 6px 20px rgba(19, 57, 121, 0.28);
+  margin-top: 6px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
-.btn-submit-rsvp:hover {
+.btn-submit-blessing:hover {
   background: linear-gradient(135deg, var(--color-royal-blue-light) 0%, var(--color-royal-blue) 100%);
   border-color: var(--color-gold);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(19, 57, 121, 0.45);
+  box-shadow: 0 8px 24px rgba(19, 57, 121, 0.38);
 }
 
-/* Success Card */
-.rsvp-success-card {
+/* Success Card Banner */
+.blessing-success-card {
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: var(--radius-sm);
+  padding: 18px 14px;
   text-align: center;
-  padding: 16px 8px;
+  margin-top: 14px;
+  animation: fadeInDown 0.4s ease;
 }
 
-.success-icon-circle {
-  width: 48px;
-  height: 48px;
+.blessing-success-icon {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(16, 185, 129, 0.15);
-  color: #10b981;
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 12px;
+  margin: 0 auto 10px;
 }
 
-.check-svg {
-  width: 28px;
-  height: 28px;
+.heart-pulse-svg {
+  width: 24px;
+  height: 24px;
+  stroke: #16a34a;
+  animation: gentlePulse 1.8s infinite;
 }
 
-.success-name {
+.blessing-success-title {
   font-family: var(--font-heading);
-  font-size: 1.45rem;
-  color: var(--color-royal-blue);
+  font-size: 1.25rem;
+  color: #15803d;
   margin-bottom: 6px;
 }
 
-.success-note {
-  font-family: var(--font-verse);
-  font-size: 0.98rem;
-  color: var(--color-text-muted);
+.blessing-success-note {
+  font-size: 0.84rem;
+  color: #166534;
   line-height: 1.4;
   margin-bottom: 12px;
 }
 
-.success-pill {
-  background: #f8fafc;
-  border: 1px dashed rgba(212, 175, 55, 0.6);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 14px;
-}
-
-.btn-edit-rsvp {
+.btn-write-another {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #15803d;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-write-another:hover {
+  background: #bbf7d0;
+}
+
+/* --------------------------------------------------------------------------
+   PUBLIC BLESSINGS WALL / FEED
+   -------------------------------------------------------------------------- */
+.public-blessings-wall {
+  border-top: 1.5px dashed rgba(212, 175, 55, 0.4);
+  padding-top: 22px;
+}
+
+.wall-title-block {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.wall-kicker {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-gold-dark);
+  margin-bottom: 4px;
+}
+
+.wall-heading {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--color-royal-blue);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.wall-subheading {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Feed List */
+.blessings-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gold) #f1f5f9;
+}
+
+.blessings-feed-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.blessings-feed-list::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 10px;
+}
+
+.blessing-feed-card {
+  background: #ffffff;
+  border: 1.2px solid rgba(212, 175, 55, 0.35);
+  border-left: 4px solid var(--color-royal-blue);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  box-shadow: 0 2px 10px rgba(19, 57, 121, 0.04);
+  position: relative;
+  transition: all 0.25s ease;
+  animation: fadeInDown 0.35s ease;
+}
+
+.blessing-feed-card.highlight-new {
+  border-left-color: #eab308;
+  background: #fffdf5;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+}
+
+.blessing-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.blessing-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #133979 0%, #d4af37 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(19, 57, 121, 0.2);
+  flex-shrink: 0;
+}
+
+.blessing-author-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.blessing-author-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.blessing-author-name {
+  font-family: var(--font-heading);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-royal-blue);
+  line-height: 1.2;
+}
+
+.blessing-time-tag {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.blessing-relation-pill {
+  display: inline-block;
+  font-size: 0.68rem;
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--color-gold-dark);
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+.blessing-message-text {
+  font-family: var(--font-verse);
+  font-size: 0.96rem;
+  color: var(--color-text-main);
+  line-height: 1.48;
+  margin: 0;
+  font-style: normal;
+  position: relative;
+  padding-left: 2px;
+}
+
+.blessing-card-corner {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 0.9rem;
+  opacity: 0.35;
+}
+
+/* Contact Pills in Groom Card */
+.member-contact-pill {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: var(--radius-full);
+  padding: 3px 12px;
+  font-size: 0.74rem;
+}
+
+.contact-pill-label {
+  color: var(--color-gold-dark);
+  font-weight: 600;
+}
+
+.contact-pill-link {
+  color: var(--color-royal-blue);
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.2s ease;
+}
+
+.contact-pill-link svg {
+  width: 12px;
+  height: 12px;
+}
+
+.contact-pill-link:hover {
+  color: var(--color-gold-dark);
+}
+
+.contact-pill-sep {
+  color: var(--color-gold);
+}
+
+/* Host Phone Pills */
+.host-phone-pills {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.host-pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-royal-blue);
+  background: rgba(19, 57, 121, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 3px 10px;
   border-radius: var(--radius-full);
   font-size: 0.78rem;
   font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.host-pill-link svg {
+  width: 12px;
+  height: 12px;
+  color: var(--color-gold-dark);
+}
+
+.host-pill-link:hover {
+  background: var(--color-royal-blue);
+  color: #ffffff;
+  border-color: var(--color-royal-blue);
+}
+
+.host-pill-link:hover svg {
+  color: #ffffff;
+}
+
+.host-pill-sep {
+  color: var(--color-gold);
+  font-weight: bold;
+}
+
+/* Dedicated Groom Parents Enquiry Card */
+.enquiry-card {
+  margin: 24px auto 14px;
+  max-width: 440px;
+  background: linear-gradient(135deg, #fdfbf7 0%, #f7f3ea 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.5);
+  border-radius: var(--radius-md);
+  padding: 16px 14px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(19, 57, 121, 0.06);
+}
+
+.enquiry-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-gold-dark);
+  margin-bottom: 6px;
+}
+
+.enquiry-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.enquiry-parent-name {
+  font-family: var(--font-classic);
+  font-size: 1.35rem;
   color: var(--color-royal-blue);
-  background: rgba(19, 57, 121, 0.08);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.enquiry-buttons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-enquiry-call,
+.btn-enquiry-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.btn-enquiry-call {
+  background: #ffffff;
+  color: var(--color-royal-blue);
+  border: 1.5px solid var(--color-royal-blue);
+  box-shadow: 0 2px 6px rgba(19, 57, 121, 0.1);
+}
+
+.btn-enquiry-call svg {
+  width: 14px;
+  height: 14px;
+  color: var(--color-royal-blue);
+}
+
+.btn-enquiry-call:hover {
+  background: var(--color-royal-blue);
+  color: #ffffff;
+}
+
+.btn-enquiry-call:hover svg {
+  color: #ffffff;
+}
+
+.btn-enquiry-wa {
+  background: #25d366;
+  color: #ffffff;
+  border: 1.5px solid #25d366;
+  box-shadow: 0 2px 6px rgba(37, 211, 102, 0.25);
+}
+
+.btn-enquiry-wa svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-enquiry-wa:hover {
+  background: #1eb857;
+  border-color: #1eb857;
+  transform: translateY(-1px);
 }
 
 /* --------------------------------------------------------------------------

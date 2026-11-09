@@ -352,9 +352,43 @@ function doPost(e) {
 }
 
 /**
- * Health check endpoint for testing in browser
+ * GET Endpoint:
+ * 1. Health check endpoint for testing in browser
+ * 2. ?action=blessings returns recent heartfelt blessings for the public wall as JSON
  */
 function doGet(e) {
-  return ContentService.createTextOutput("🌸 Gelli Gurupreetham & Nagella Sai Niharika Wedding RSVP Webhook is ACTIVE and connected! Ready to receive RSVPs.")
+  if (e && e.parameter && (e.parameter.action === "blessings" || e.parameter.action === "get_blessings")) {
+    try {
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+      var sheet = ss.getSheetByName(SHEET_NAME) || ss.getActiveSheet();
+      var lastRow = sheet.getLastRow();
+      var blessings = [];
+      if (lastRow >= 8) {
+        var numRows = lastRow - 7;
+        var values = sheet.getRange(8, 1, numRows, 7).getValues();
+        for (var i = values.length - 1; i >= 0; i--) {
+          var rowName = values[i][1];
+          var rowRelation = values[i][5];
+          var rowWish = values[i][6];
+          var rowTime = values[i][0];
+          if (rowWish && String(rowWish).trim().length > 0) {
+            blessings.push({
+              name: String(rowName || "Well Wisher").trim(),
+              relation: String(rowRelation || "Family & Friends").trim(),
+              message: String(rowWish).trim(),
+              time: rowTime ? Utilities.formatDate(new Date(rowTime), Session.getScriptTimeZone(), "dd MMM, hh:mm a") : "Recently"
+            });
+          }
+        }
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", count: blessings.length, blessings: blessings }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } catch (err) {
+      return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
+  return ContentService.createTextOutput("🌸 Gelli Gurupreetham & Nagella Sai Niharika Wedding Blessings Webhook is ACTIVE! Ready to receive and display heartfelt blessings.")
     .setMimeType(ContentService.MimeType.TEXT);
 }
