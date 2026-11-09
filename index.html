@@ -145,9 +145,10 @@
           <span class="div-line"></span>
         </div>
 
-        <!-- Single Line Wedding Date -->
+        <!-- Wedding Date & Venue City (Two Lines) -->
         <div class="hero-date">
-          <span>21 – 23 DECEMBER 2026 · RAYADURGAM</span>
+          <span class="hero-date-line">21 – 23 DECEMBER 2026</span>
+          <span class="hero-place-line">RAYADURGAM</span>
         </div>
 
       </div>
@@ -329,27 +330,17 @@
           <div class="big-carousel-slides" id="gallerySlides">
             <div class="big-slide-item active">
               <div class="big-photo-frame">
-                <img src="assets/gallery-couple-1.webp" alt="Royal Wedding Couple" />
+                <img src="assets/gallery-couple-1.webp" alt="Gurupreetham &amp; Sai Niharika" />
               </div>
             </div>
             <div class="big-slide-item">
               <div class="big-photo-frame">
-                <img src="assets/gallery-couple-2.webp" alt="Cherished Candid Moments" />
+                <img src="assets/gallery-couple-2.webp" alt="Cherished Moments Together" />
               </div>
             </div>
             <div class="big-slide-item">
               <div class="big-photo-frame">
-                <img src="assets/gallery-couple-3.webp" alt="Timeless Love and Warm Embrace" />
-              </div>
-            </div>
-            <div class="big-slide-item">
-              <div class="big-photo-frame">
-                <img src="assets/gallery-couple-4.webp" alt="Traditional Ceremonial Festivities" />
-              </div>
-            </div>
-            <div class="big-slide-item">
-              <div class="big-photo-frame">
-                <img src="assets/gallery-couple-5.webp" alt="Cherished Moments with Family" />
+                <img src="assets/gallery-couple-3.webp" alt="Gurupreetham &amp; Sai Niharika Celebrating with Rings" />
               </div>
             </div>
           </div>
@@ -572,26 +563,48 @@
 
           <!-- Attendance Details Section (Hidden automatically when 'Regretfully Decline' is clicked) -->
           <div id="rsvp-attendance-details">
-            <div class="form-row-dual">
-              <div class="form-field">
-                <label for="rsvp-guests">Number of Guests</label>
-                <select id="rsvp-guests">
-                  <option value="1">1 Person</option>
-                  <option value="2" selected>2 Persons</option>
-                  <option value="3">3 Persons</option>
-                  <option value="4">4 Persons</option>
-                  <option value="5+">5+ Family</option>
-                </select>
-              </div>
+            <div class="form-field">
+              <label for="rsvp-guests">Number of Guests</label>
+              <select id="rsvp-guests">
+                <option value="1">1 Person</option>
+                <option value="2" selected>2 Persons</option>
+                <option value="3">3 Persons</option>
+                <option value="4">4 Persons</option>
+                <option value="5+">5+ Family Members</option>
+              </select>
+            </div>
 
-              <div class="form-field">
-                <label>Events Attending</label>
-                <div class="event-checkboxes">
-                  <label><input type="checkbox" name="events" value="Haldi (21 Dec)" checked /> Haldi (21 Dec)</label>
-                  <label><input type="checkbox" name="events" value="Rayadurgam Reception (22 Dec)" checked /> Reception (22 Dec)</label>
-                  <label><input type="checkbox" name="events" value="Wedding Muhurtham (23 Dec)" checked /> Wedding (23 Dec)</label>
-                  <label><input type="checkbox" name="events" value="Anantapur Reception (25 Dec)" checked /> Grand Reception (25 Dec)</label>
-                </div>
+            <div class="form-field rsvp-events-field">
+              <label>Events Attending</label>
+              <div class="event-checkboxes-grid">
+                <label class="event-check-card">
+                  <input type="checkbox" name="events" value="Haldi (21 Dec)" checked />
+                  <div class="event-check-content">
+                    <span class="event-check-name">Haldi Ceremony</span>
+                    <span class="event-check-date">Monday, 21 Dec 2026</span>
+                  </div>
+                </label>
+                <label class="event-check-card">
+                  <input type="checkbox" name="events" value="Reception Rayadurgam (22 Dec)" checked />
+                  <div class="event-check-content">
+                    <span class="event-check-name">Reception (Rayadurgam)</span>
+                    <span class="event-check-date">Tuesday, 22 Dec 2026 · Evening</span>
+                  </div>
+                </label>
+                <label class="event-check-card">
+                  <input type="checkbox" name="events" value="Wedding Muhurtham (23 Dec)" checked />
+                  <div class="event-check-content">
+                    <span class="event-check-name">Wedding Muhurtham</span>
+                    <span class="event-check-date">Wednesday, 23 Dec 2026 · 10:45 AM</span>
+                  </div>
+                </label>
+                <label class="event-check-card">
+                  <input type="checkbox" name="events" value="Grand Reception Anantapur (25 Dec)" checked />
+                  <div class="event-check-content">
+                    <span class="event-check-name">Grand Reception (Anantapur)</span>
+                    <span class="event-check-date">Friday, 25 Dec 2026 · Evening</span>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
