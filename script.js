@@ -12,6 +12,12 @@
  * ============================================================================
  */
 
+// ============================================================================
+// GOOGLE SHEETS LIVE RSVP SYNC CONFIGURATION
+// To connect your Google Sheet: paste your Google Apps Script Web App URL below
+// ============================================================================
+const GOOGLE_SHEET_WEBHOOK_URL = '';
+
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Lucide Icons
   if (window.lucide) {
@@ -645,6 +651,24 @@ function handleRsvpSubmit(e) {
   };
 
   localStorage.setItem('krishna_rsvp_submission', JSON.stringify(rsvpData));
+
+  // Asynchronously sync with Google Sheet Webhook if configured
+  if (GOOGLE_SHEET_WEBHOOK_URL) {
+    try {
+      fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(rsvpData)
+      }).catch(err => {
+        console.warn('Google Sheets background sync note:', err);
+      });
+    } catch (sheetErr) {
+      console.warn('Google Sheets sync notice:', sheetErr);
+    }
+  }
 
   // Switch to confirmation card
   const form = document.getElementById('rsvp-form');
