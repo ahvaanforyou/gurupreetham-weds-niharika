@@ -16,7 +16,7 @@
 // GOOGLE SHEETS LIVE RSVP SYNC CONFIGURATION
 // To connect your Google Sheet: paste your Google Apps Script Web App URL below
 // ============================================================================
-const GOOGLE_SHEET_WEBHOOK_URL = '';
+const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby4HgcIDwHCOpci2vHwWg4ap85umw9JMo0O2Ly0Wt9KZuxejAWe2gVzZMcg_ClaotqA0w/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Lucide Icons

@@ -44,8 +44,8 @@ This guide explains how to connect your website's RSVP form directly to a **Goog
 5. Copy the generated **Web App URL** (starts with `https://script.google.com/macros/s/.../exec`).
 
 #### Step 6: Connect to Website
-1. Provide the Web App URL in chat or paste it into `script.js` at line 6:
-   ```javascript
-   const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
-   ```
-2. Your website will now instantly record and update all guest RSVPs into your Google Sheet in real time!
+Your Google Sheet Webhook is now connected in `script.js`:
+```javascript
+const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby4HgcIDwHCOpci2vHwWg4ap85umw9JMo0O2Ly0Wt9KZuxejAWe2gVzZMcg_ClaotqA0w/exec';
+```
+All RSVP submissions from the live website are now recorded and updated directly in your Google Sheet in real time!
