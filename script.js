@@ -839,7 +839,7 @@ Celebrate the wedding celebrations of:
 💍 *Wedding Muhurtham:* 23-12-2026 (10:45 AM – 11:15 AM, Kumbha Lagnam)
 📍 *Venue:* Sri Maddaneshware Swamy Function Hall, Rayadurgam (https://maps.app.goo.gl/25FV4oNNGrZjgZLcA)
 
-🎊 *Grand Reception (Anantapur):* 25-12-2026
+🎊 *Grand Reception (Anantapur):* 25-12-2026 (11:00 AM onwards followed by lunch)
 📍 *Venue:* Police Convention Centre, Kamalanagar, Anantapur (https://maps.app.goo.gl/Nf8Q3P7NU5GxEYQS9)
 
 📞 *For Enquiries (Groom's Parents):*

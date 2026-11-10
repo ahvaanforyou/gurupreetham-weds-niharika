@@ -99,7 +99,7 @@ def generate_banners():
 
     draw.line([(center_x - 140, 276), (center_x + 140, 276)], fill=deep_gold, width=1)
 
-    draw_c('21st – 23rd December 2026', 292, f_date, bright_gold)
+    draw_c('22nd – 23rd December 2026', 292, f_date, bright_gold)
     draw_c('Muhurtham: Wednesday, 23 Dec 2026 (10:45 – 11:15 AM)', 328, f_time, (245, 240, 225))
     draw_c('Kumbha Lagnam', 354, f_time, (255, 230, 140))
     draw_c('Sri Maddaneshware Swamy Function Hall', 384, f_venue_bold, (230, 210, 150))

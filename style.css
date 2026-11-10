@@ -1031,18 +1031,23 @@ button {
 
 /* Consistent staggered sticky tops for physical card deck stacking */
 .event-card-item:nth-child(1) {
-  top: 12vh;
+  top: 9vh;
   z-index: 1;
 }
 
 .event-card-item:nth-child(2) {
-  top: 16vh;
+  top: 13vh;
   z-index: 2;
 }
 
 .event-card-item:nth-child(3) {
-  top: 20vh;
+  top: 17vh;
   z-index: 3;
+}
+
+.event-card-item:nth-child(4) {
+  top: 21vh;
+  z-index: 4;
   margin-bottom: 0;
 }
 
@@ -1127,6 +1132,31 @@ button {
 
 .date-haldi {
   color: #65a30d;
+}
+
+.title-reception-anantapur {
+  color: #c026d3;
+}
+
+.date-reception-anantapur {
+  color: #c026d3;
+}
+
+.event-custom-location {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-top: 3px;
+  letter-spacing: 0.5px;
+}
+
+.event-custom-time {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-top: 2px;
 }
 
 @media (min-width: 420px) {
