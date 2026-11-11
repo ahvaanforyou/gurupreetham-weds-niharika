@@ -589,37 +589,8 @@ function initEventCardsScrollTrigger() {
    Guests shower their warm wishes & blessings which display publicly!
    ========================================================================== */
 
-// Curated initial heartfelt blessings to welcome visitors
-const DEFAULT_BLESSINGS = [
-  {
-    id: 1,
-    name: "Dr. Gelli Sreenivasulu & Vidyavathi",
-    relation: "Parents of Groom · Rayadurgam",
-    message: "May Lord Sri Radha Krishna shower Gurupreetham and Niharika with boundless happiness, health, divine harmony, and a joyous married life! Our heartfelt blessings are always with you both. 🌸✨",
-    time: "Family Blessing"
-  },
-  {
-    id: 2,
-    name: "Nagella Vedavathi & Ramanjineyulu",
-    relation: "Parents of Bride",
-    message: "Wishing our dearest Niharika and Gurupreetham eternal love, sweet togetherness, and blissful companionship as you step into this sacred journey of life. 🌸🙏",
-    time: "Family Blessing"
-  },
-  {
-    id: 3,
-    name: "Kalyan & Family",
-    relation: "Bangalore · Family Friends",
-    message: "Hearty congratulations Gurupreetham & Niharika! So thrilled for both of you. Looking forward to celebrating the auspicious moments in Rayadurgam! #PreetKiHari 🎉🌸",
-    time: "Today"
-  },
-  {
-    id: 4,
-    name: "Suresh Kumar & Family",
-    relation: "Anantapur · Well Wishers",
-    message: "Warmest wedding greetings to the lovely couple! May your bond grow stronger with each passing day. Best wishes to both families! 💐",
-    time: "Yesterday"
-  }
-];
+// Only real user-submitted blessings are displayed (dummy data removed)
+const DEFAULT_BLESSINGS = [];
 
 function initBlessingsSystem() {
   renderBlessingsFeed();
@@ -629,7 +600,17 @@ function initBlessingsSystem() {
 function getStoredBlessings() {
   try {
     const raw = localStorage.getItem('gurupreetham_niharika_blessings');
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const list = JSON.parse(raw);
+    if (!Array.isArray(list)) return [];
+    // Filter out previous dummy items if any were cached during development
+    const dummyNames = [
+      'Dr. Gelli Sreenivasulu & Vidyavathi',
+      'Nagella Vedavathi & Ramanjineyulu',
+      'Kalyan & Family',
+      'Suresh Kumar & Family'
+    ];
+    return list.filter(item => item && item.name && !dummyNames.includes(item.name.trim()));
   } catch (err) {
     console.error('Error reading stored blessings:', err);
     return [];
@@ -654,11 +635,12 @@ function renderBlessingsFeed() {
 
   const localBlessings = getStoredBlessings();
   
-  // Combine: Local newly submitted blessings + Remote blessings (if any) + Default family blessings
+  // Combine: Local newly submitted blessings + Remote blessings (if any)
   const seen = new Set();
   const allBlessings = [];
 
   [...localBlessings, ...remoteBlessingsCache, ...DEFAULT_BLESSINGS].forEach(item => {
+    if (!item || !item.name || !item.message) return;
     const key = `${(item.name || '').trim().toLowerCase()}_${(item.message || '').trim().toLowerCase()}`;
     if (!seen.has(key)) {
       seen.add(key);
@@ -666,7 +648,17 @@ function renderBlessingsFeed() {
     }
   });
 
-  container.innerHTML = allBlessings.map(b => createBlessingCardHtml(b)).join('');
+  if (allBlessings.length === 0) {
+    container.innerHTML = `
+      <div class="blessings-empty-state">
+        <div class="empty-sparkle">🌸 ✨ 🌸</div>
+        <h4 class="empty-title">Be the First to Shower Your Blessings!</h4>
+        <p class="empty-text">Write your heartfelt wishes above to celebrate Gurupreetham &amp; Niharika. Your warm blessings will appear right here on the public wall.</p>
+      </div>
+    `;
+  } else {
+    container.innerHTML = allBlessings.map(b => createBlessingCardHtml(b)).join('');
+  }
 
   if (window.lucide) {
     window.lucide.createIcons();
